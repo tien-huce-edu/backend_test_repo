@@ -1,0 +1,26 @@
+server:
+  port: 3000
+swagger:
+  path: '/api/v1/api-docs'
+  title: 'HR TOOL API'
+  description: 'HR TOOL API documentation'
+  version: '0.0.1'
+  default-include-pattern: '/api/.*'
+typeorm:
+  host: 'hr-mysql'
+  username: 'root'
+  password: '123456798'
+  synchronize: false
+  port: 3306
+  migrationsRun: false
+  name: 'default'
+  type: 'mysql'
+  database: 'rocket_personnel'
+  keepConnectionAlive: true
+  logging: true
+security:
+  jwt:
+    base64-secret: 'hr-backend'
+    token-validity-in-seconds: 86400
+    token-validity-in-seconds-for-remember-me: 2592000
+    hash-salt-or-rounds: 10

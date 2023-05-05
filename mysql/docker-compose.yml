@@ -1,0 +1,20 @@
+version: '3'
+services:
+  hr-mysql:
+    container_name: hr-mysql
+    image: 'mysql:5.7.35'
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456798'
+      MYSQL_DATABASE: 'rocket_personnel'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./dockers/mysql:/var/lib/mysql
+    networks:
+      - localnet
+networks:
+  localnet:
+    name: skyhrdata_localnet
+    driver: bridge

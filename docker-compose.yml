@@ -1,0 +1,19 @@
+version: '3'
+services:
+  hr-backend:
+    container_name: hr-backend
+    image: hr-backend
+    build: .
+    ports:
+      - '8080:3000'
+    volumes:
+      - .:/home/node/backend
+    stdin_open: true
+    tty: true
+    environment:
+      HOST: 0.0.0.0
+    networks:
+      - skyhrdata_localnet
+networks:
+  skyhrdata_localnet:
+    external: true
