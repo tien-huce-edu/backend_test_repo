@@ -1,4 +1,4 @@
 export interface Payload {
-  username: number;
-  authorities?: string[];
+  id: number;
+  username: string;
 }

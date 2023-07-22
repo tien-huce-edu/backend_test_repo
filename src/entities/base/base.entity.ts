@@ -1,20 +1,39 @@
 import {
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
 export abstract class BaseEntity {
   @PrimaryGeneratedColumn()
-  id?: number;
+  id: number;
 
   @Column({ nullable: true })
-  createdBy?: string;
-  @CreateDateColumn({ nullable: true })
-  createdDate?: Date;
+  created_by?: string;
+
+  @CreateDateColumn({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+  })
+  created_at: Date;
+
   @Column({ nullable: true })
-  lastModifiedBy?: string;
-  @UpdateDateColumn({ nullable: true })
-  lastModifiedDate?: Date;
+  updated_by?: string;
+
+  @UpdateDateColumn({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+    onUpdate: "CURRENT_TIMESTAMP(6)",
+  })
+  updated_at: Date;
+
+  @Column({ nullable: true })
+  deleted_by?: string;
+
+  @UpdateDateColumn({
+    type: "timestamp",
+    nullable: true,
+  })
+  deleted_at?: Date;
 }

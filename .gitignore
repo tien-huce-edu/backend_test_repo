@@ -1,0 +1,11 @@
+mysql/dockers
+node_modules
+src/.DS_Store
+yarn.lock
+tsconfig.build.json
+dist
+src/.DS_Store
+yarn.lock
+logs/*.log
+yarn.lock
+redis/data

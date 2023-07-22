@@ -1,7 +1,7 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { setupSwagger } from './swagger';
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import { setupSwagger } from "./swagger";
 
 async function bootstrap() {
   const appOptions = { cors: true };
@@ -10,8 +10,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (): BadRequestException =>
-        new BadRequestException('Validation error'),
-    }),
+        new BadRequestException("Validation error"),
+    })
   );
   await app.listen(3000);
 }

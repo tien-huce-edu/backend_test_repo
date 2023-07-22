@@ -3,14 +3,18 @@ import { BaseEntity } from "typeorm";
 /**
  * A DTO base object.
  */
-export class BaseDTO extends BaseEntity{
-  // id?: number;
+export class BaseDTO extends BaseEntity {
+  id?: number;
 
-  // createdBy?: string;
+  created_by?: string;
 
-  // createdDate?: Date;
+  created_at?: Date;
 
-  // lastModifiedBy?: string;
+  updated_by?: string;
 
-  // lastModifiedDate?: Date;
+  updated_at?: Date;
+
+  deleted_by?: string;
+
+  deleted_at?: Date;
 }
