@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { Request, Response } from "express";
-import { AuthGuard, RoleType, Roles, RolesGuard } from "../../security";
+import { AuthGuard } from "../../security";
 // import { UserDTO } from '../../main/user/user.dto';
 // import { LoggingInterceptor } from '../../interceptor/logging.interceptor';
 import {
@@ -48,8 +48,7 @@ export class AccountController {
 
   @Get("/activate")
   @ApiBearerAuth()
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(RoleType.ADMIN)
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: "Activate an account" })
   @ApiResponse({
     status: 200,

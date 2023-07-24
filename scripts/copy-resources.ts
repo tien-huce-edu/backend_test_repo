@@ -5,7 +5,8 @@ import * as shell from "shelljs";
 const out = path.join(__dirname, "..", "dist");
 createFolderIfNotExist(out);
 
-createFolderIfNotExist(path.join(out, "config"));
+createFolderIfNotExist(path.join(out, "src"));
+createFolderIfNotExist(path.join(out, "src/config"));
 
 shell.cp("-R", "src/config/*.yml", "dist/src/config");
 
