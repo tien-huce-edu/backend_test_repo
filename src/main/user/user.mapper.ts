@@ -1,15 +1,15 @@
-import { RocketPersonnelAccount } from '../../entities/RocketPersonnelAccount';
-import { UserDTO } from './user.dto';
+import { User } from "../../entities/user.entity";
+import { UserDTO } from "./user.dto";
 
 /**
  * An User mapper object.
  */
 export class UserMapper {
-  static fromDTOtoEntity(userDTO: UserDTO): RocketPersonnelAccount {
+  static fromDTOtoEntity(userDTO: UserDTO): User {
     if (!userDTO) {
       return;
     }
-    const user = new RocketPersonnelAccount();
+    const user = new User();
     const fields = Object.getOwnPropertyNames(userDTO);
     fields.forEach((field) => {
       user[field] = userDTO[field];
@@ -17,7 +17,7 @@ export class UserMapper {
     return user;
   }
 
-  static fromEntityToDTO(user: RocketPersonnelAccount): UserDTO {
+  static fromEntityToDTO(user: User): UserDTO {
     if (!user) {
       return;
     }

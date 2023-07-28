@@ -1,13 +1,11 @@
-/* eslint-disable max-classes-per-file */
-import { BaseEntity } from './base.entity';
-import { Type, Expose as JsonProperty } from 'class-transformer';
+import { Expose as JsonProperty, Type } from "class-transformer";
 
 export class Sort {
   public property: string;
-  public direction: 'ASC' | 'DESC' | string;
+  public direction: "ASC" | "DESC" | string;
   constructor(sort: string) {
     if (sort) {
-      [this.property, this.direction] = sort.split(',');
+      [this.property, this.direction] = sort.split(",");
     }
   }
 
@@ -24,7 +22,7 @@ export class PageRequest {
   @JsonProperty()
   size = 20;
   @Type(() => Sort)
-  sort: Sort = new Sort('id,ASC');
+  sort: Sort = new Sort("id,ASC");
 
   constructor(page: number | string, size: number | string, sort: string) {
     this.page = +page || this.page;
@@ -33,10 +31,10 @@ export class PageRequest {
   }
 }
 
-export class Page<T extends BaseEntity> {
+export class Page<T> {
   constructor(
     public content: T[],
     public total: number,
-    public pageable: PageRequest,
+    public pageable: PageRequest
   ) {}
 }
