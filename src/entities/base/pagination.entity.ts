@@ -18,9 +18,11 @@ export class Sort {
 
 export class PageRequest {
   @JsonProperty()
-  page = 0;
+  page = 1;
   @JsonProperty()
   size = 20;
+  @JsonProperty()
+  skip = 0;
   @Type(() => Sort)
   sort: Sort = new Sort("id,ASC");
 
@@ -28,13 +30,10 @@ export class PageRequest {
     this.page = +page || this.page;
     this.size = +size || this.size;
     this.sort = sort ? new Sort(sort) : this.sort;
+    this.skip = (this.page - 1) * this.size;
   }
 }
 
 export class Page<T> {
-  constructor(
-    public content: T[],
-    public total: number,
-    public pageable: PageRequest
-  ) {}
+  constructor(public content: T[], public total: number, public pageable: PageRequest) {}
 }

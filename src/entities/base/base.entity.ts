@@ -1,6 +1,7 @@
+import { Expose } from "class-transformer";
 import {
-  Column,
   CreateDateColumn,
+  DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -9,31 +10,15 @@ export abstract class BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
-  created_by?: string;
+  @CreateDateColumn({ type: "datetime", name: "created_at" })
+  @Expose({ name: "created_at" })
+  createdAt: Date;
 
-  @CreateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-  })
-  created_at: Date;
+  @UpdateDateColumn({ type: "datetime", name: "updated_at", nullable: true })
+  @Expose({ name: "updated_at" })
+  updatedAt: Date | null;
 
-  @Column({ nullable: true })
-  updated_by?: string;
-
-  @UpdateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-    onUpdate: "CURRENT_TIMESTAMP(6)",
-  })
-  updated_at: Date;
-
-  @Column({ nullable: true })
-  deleted_by?: string;
-
-  @UpdateDateColumn({
-    type: "timestamp",
-    nullable: true,
-  })
-  deleted_at?: Date;
+  @DeleteDateColumn({ type: "datetime", name: "deleted_at", nullable: true })
+  @Expose({ name: "deleted_at" })
+  deletedAt: Date | null;
 }

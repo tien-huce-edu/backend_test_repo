@@ -1,0 +1,34 @@
+server:
+  port: 3000
+swagger:
+  path: "/api/v1/api-docs"
+  title: "Base API"
+  description: "Base API documentation"
+  version: "0.0.1"
+  default-include-pattern: "/api/.*"
+typeorm:
+  host: "mysql" #change container name here
+  username: "root"
+  password: "123456"
+  synchronize: false
+  port: 3306
+  migrationsRun: false
+  name: "default"
+  type: "mysql"
+  database: "rocket_recruitment" # change default schema here
+  keepConnectionAlive: true
+  logging: true
+security:
+  jwt:
+    base64-secret: "secret" # change secret here
+    token-validity-in-seconds: 86400
+    hash-salt-or-rounds: 10
+ttl:
+  cache:
+    default: 3600
+redis:
+  cache-key-name: base # change cache key name here
+  default-db: 0 # change db here or add new db
+  url: redis://redis:6379
+google:
+  GOOGLE_CLIENT_ID: "937871117874-duf9mciorja5a3qo5imgq63f725qs59n.apps.googleusercontent.com"
