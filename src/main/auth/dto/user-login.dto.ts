@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsEmail, IsString } from "class-validator";
 
 /**
  * A DTO representing a login user.
@@ -10,6 +10,6 @@ export class UserLoginDTO {
   readonly password: string;
 
   @ApiProperty({ description: "Username" })
-  @IsString()
+  @IsEmail()
   readonly username: string;
 }

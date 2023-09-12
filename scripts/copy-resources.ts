@@ -5,10 +5,9 @@ import * as shell from "shelljs";
 const out = path.join(__dirname, "..", "dist");
 createFolderIfNotExist(out);
 
-createFolderIfNotExist(path.join(out, "src"));
-createFolderIfNotExist(path.join(out, "src/config"));
+createFolderIfNotExist(path.join(out, "config"));
 
-shell.cp("-R", "src/config/*.yml", "dist/src/config");
+shell.cp("-R", "src/config/*.yml", "dist/config");
 
 function createFolderIfNotExist(outDir: string): void {
   if (!fs.existsSync(outDir)) {

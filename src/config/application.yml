@@ -30,3 +30,5 @@ redis:
   cache-key-name: base # change cache key name here
   default-db: 0 # change db here or add new db
   url: redis://redis:6379
+google:
+  GOOGLE_CLIENT_ID: "937871117874-duf9mciorja5a3qo5imgq63f725qs59n.apps.googleusercontent.com"

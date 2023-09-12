@@ -22,9 +22,9 @@
     "copy-resources": "ts-node scripts/copy-resources.ts",
     "prebuild": "rimraf dist",
     "migration:generate": "yarn typeorm migration:create",
-    "migration:up": "env-cmd -f .env yarn typeorm migration:run -d dist/src/typeorm/orm-seeding-migration.datasource.js",
-    "migration:down": "env-cmd -f .env yarn typeorm migration:revert -d dist/src/typeorm/orm-seeding-migration.datasource.js",
-    "seed": "env-cmd -f .env ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed -d dist/src/typeorm/orm-seeding-migration.datasource.js"
+    "migration:up": "env-cmd -f .env yarn typeorm migration:run -d dist/typeorm/orm-seeding-migration.datasource.js",
+    "migration:down": "env-cmd -f .env yarn typeorm migration:revert -d dist/typeorm/orm-seeding-migration.datasource.js",
+    "seed": "env-cmd -f .env ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed -d dist/typeorm/orm-seeding-migration.datasource.js"
   },
   "dependencies": {
     "@nestjs-modules/ioredis": "^1.0.1",
@@ -40,6 +40,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "env-cmd": "^10.1.0",
+    "google-auth-library": "^9.0.0",
     "js-yaml": "^4.1.0",
     "mysql2": "^3.2.3",
     "passport": "^0.6.0",
@@ -47,7 +48,9 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.15",
-    "typeorm-extension": "^2.7.0"
+    "typeorm-extension": "^2.7.0",
+    "winston": "^3.10.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { config } from "src/config/config";
+import { config } from "../config/config";
 
 function ormConfig(): TypeOrmModuleOptions {
   const orm = {
@@ -17,7 +17,6 @@ function ormConfig(): TypeOrmModuleOptions {
     migrations: [__dirname + "/../migrations/**/*{.ts,.js}"],
     migrationsRun: config.get("typeorm.migrationsRun"),
   };
-  console.log("orm config: ", orm);
   return orm;
 }
 

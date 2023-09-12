@@ -1,15 +1,15 @@
-import { User } from "../../entities/user.entity";
-import { UserDTO } from "./user.dto";
+import { TblUsers } from "../../entities/tbl_users.entity";
+import { UserDTO } from "./dto/user.dto";
 
 /**
  * An User mapper object.
  */
 export class UserMapper {
-  static fromDTOtoEntity(userDTO: UserDTO): User {
+  static fromDTOtoEntity(userDTO: UserDTO): TblUsers {
     if (!userDTO) {
       return;
     }
-    const user = new User();
+    const user = new TblUsers();
     const fields = Object.getOwnPropertyNames(userDTO);
     fields.forEach((field) => {
       user[field] = userDTO[field];
@@ -17,7 +17,7 @@ export class UserMapper {
     return user;
   }
 
-  static fromEntityToDTO(user: User): UserDTO {
+  static fromEntityToDTO(user: TblUsers): UserDTO {
     if (!user) {
       return;
     }

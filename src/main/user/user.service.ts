@@ -1,35 +1,61 @@
-import { Injectable } from "@nestjs/common";
+import {
+  Injectable,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import * as bcrypt from "bcrypt";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
-import { User } from "../../entities/user.entity";
+import { TblUsers } from "../../entities/tbl_users.entity";
 import { UserMapper } from "./user.mapper";
-// import { transformPassword } from '../../common/password-util';
-import { UserDTO } from "./user.dto";
+import { JwtService } from "@nestjs/jwt";
+import { LoggerService } from "../../common/logger/logger.service";
+import { Payload } from "../../security/payload.interface";
+import { RedisCacheService } from "../redis/redis.service";
+import { RolesService } from "../roles/roles.service";
+import { UserDTO } from "./dto/user.dto";
 
 const relationshipNames = [];
-relationshipNames.push("devices");
-relationshipNames.push("group");
+relationshipNames.push("tblUserRoles");
 
 @Injectable()
 export class UserService {
+  logger = new LoggerService("UserService");
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>
+    @InjectRepository(TblUsers) private userRepository: Repository<TblUsers>,
+    private readonly jwtService: JwtService,
+    private rolesService: RolesService,
+    private cacheService: RedisCacheService
   ) {}
 
-  async findById(userId: number): Promise<UserDTO | undefined> {
-    const options = { where: { id: userId }, relations: relationshipNames };
+  async validateUser(payload: Payload): Promise<UserDTO | undefined> {
+    return await this.findUserWithAuthById(payload.id);
+  }
+
+  async findUserWithAuthById(userId: number): Promise<UserDTO | undefined> {
+    const relationshipNames = [];
+    const userDTO: UserDTO = await this.findById(userId);
+    return userDTO;
+  }
+
+  async findById(id: number): Promise<UserDTO | undefined> {
+    const options = { where: { id: id }, relations: relationshipNames };
+    const result = await this.userRepository.findOne(options);
+    return UserMapper.fromEntityToDTO(result);
+  }
+
+  async findByUsername(username: string): Promise<UserDTO | undefined> {
+    const options = { where: { username }, relations: relationshipNames };
     const result = await this.userRepository.findOne(options);
     return UserMapper.fromEntityToDTO(result);
   }
 
   async findByFields(
-    options: FindOneOptions<User>
+    options: FindOneOptions<TblUsers>
   ): Promise<UserDTO | undefined> {
     const result = await this.userRepository.findOne(options);
     return UserMapper.fromEntityToDTO(result);
   }
 
-  async find(options: FindManyOptions<User>): Promise<UserDTO | undefined> {
+  async find(options: FindManyOptions<TblUsers>): Promise<UserDTO | undefined> {
     const result = await this.userRepository.findOne(options);
     return UserMapper.fromEntityToDTO(result);
   }

@@ -1,7 +1,7 @@
-import { config } from "src/config/config";
-import { MainSeeder } from "src/database/seeds/main.seed";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { SeederOptions } from "typeorm-extension";
+import { config } from "../config/config";
+import { MainSeeder } from "../database/seeds/main.seed";
 
 const options: DataSourceOptions & SeederOptions = {
   type: config.get("typeorm.type"),

@@ -21,13 +21,16 @@ export class PageRequest {
   page = 0;
   @JsonProperty()
   size = 20;
+  @JsonProperty()
+  skip = 0;
   @Type(() => Sort)
   sort: Sort = new Sort("id,ASC");
 
   constructor(page: number | string, size: number | string, sort: string) {
-    this.page = +page || this.page;
+    this.page = +page > 0 ? +page : 0 || this.page;
     this.size = +size || this.size;
     this.sort = sort ? new Sort(sort) : this.sort;
+    this.skip = this.page * this.size;
   }
 }
 
