@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { ArrayMinSize, IsArray, ValidateNested } from "class-validator";
-import { BaseResponseDto } from "../../../main/base/base-response.dto";
+import { BaseResponseDto } from "../../base/base-response.dto";
 import { UserDTO } from "./user.dto";
 
 export class UserFindAllDTO extends BaseResponseDto {

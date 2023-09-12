@@ -1,4 +1,4 @@
-import { TblRoles } from "../../entities/bi_report/tbl_roles.entity";
+import { TblRoles } from "../../entities/tbl_roles.entity";
 import { RoleDto } from "./dto/role.dto";
 
 /**

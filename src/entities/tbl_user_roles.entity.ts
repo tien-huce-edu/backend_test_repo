@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   Index,
@@ -7,12 +6,13 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { BaseEntity } from "./base/base.entity";
 import { TblRoles } from "./tbl_roles.entity";
 import { TblUsers } from "./tbl_users.entity";
 
 @Index("unq_user_role", ["userId", "roleId"], { unique: true })
 @Index("fk_tbl_user_roles_2", ["roleId"], {})
-@Entity("tbl_user_roles", { schema: "rocket_bitool" })
+@Entity("tbl_user_roles", { schema: "rocket_base" })
 export class TblUserRoles extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;

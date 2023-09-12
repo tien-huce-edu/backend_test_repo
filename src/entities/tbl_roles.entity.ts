@@ -1,12 +1,12 @@
 import { Column, Entity, Index, OneToMany } from "typeorm";
-import { BaseEntity } from "../base/base.entity";
+import { BaseEntity } from "./base/base.entity";
 import { TblUserRoles } from "./tbl_user_roles.entity";
 
-@Index("key_UNIQUE", ["key"], { unique: true })
-@Entity("tbl_roles", { schema: "rocket_bitool" })
+@Index("code_UNIQUE", ["code"], { unique: true })
+@Entity("tbl_roles", { schema: "rocket_base" })
 export class TblRoles extends BaseEntity {
-  @Column("varchar", { name: "key", unique: true, length: 45 })
-  key: string;
+  @Column("varchar", { name: "code", unique: true, length: 45 })
+  code: string;
 
   @Column("varchar", { name: "name", length: 45 })
   name: string;

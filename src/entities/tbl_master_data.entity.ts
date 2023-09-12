@@ -1,14 +1,15 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import { BaseEntity } from "./base/base.entity";
 
-@Entity("tbl_master_data", { schema: "rocket_bitool" })
+@Index("unq_code_type", ["code", "type"], { unique: true })
+@Entity("tbl_master_data", { schema: "rocket_base" })
 export class TblMasterData extends BaseEntity {
-  @Column("varchar", { name: "code", nullable: true, length: 255 })
-  code: string | null;
+  @Column("varchar", { name: "name", length: 256 })
+  name: string;
 
-  @Column("varchar", { name: "name", nullable: true, length: 255 })
-  name: string | null;
+  @Column("varchar", { name: "code", length: 256, nullable: false })
+  code: string;
 
-  @Column("varchar", { name: "type", nullable: true, length: 255 })
-  type: string | null;
+  @Column("varchar", { name: "type", length: 256, nullable: false })
+  type: string;
 }

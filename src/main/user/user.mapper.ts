@@ -1,4 +1,4 @@
-import { TblUsers } from "../../entities/bi_report/tbl_users.entity";
+import { TblUsers } from "../../entities/tbl_users.entity";
 import { UserDTO } from "./dto/user.dto";
 
 /**

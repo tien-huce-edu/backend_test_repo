@@ -6,43 +6,85 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { RolesService } from "../../main/roles/roles.service";
+import {
+  ACCOUNT,
+  KEYCACHEAPINAME,
+  KEYCACHEPATH,
+} from "../../common/constants/constants";
+import { MatrixService } from "../../main/matrix/matrix.service";
+import { RedisCacheService } from "../../main/redis/redis.service";
+import { RolesMatrixService } from "../../main/roles-matrix/roles-matrix.service";
 import { UserDTO } from "../../main/user/dto/user.dto";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private rolesService: RolesService
+    private cacheService: RedisCacheService,
+    private matrixService: MatrixService,
+    private rolesMatrixService: RolesMatrixService
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean | false> {
-    const roles = this.reflector.get<string[]>("roles", context.getHandler());
-    if (!roles || roles.length <= 0) {
+    const roles = this.reflector.get<any>("roles", context.getHandler());
+
+    if (!roles) {
       return true;
     }
 
     const request = context.switchToHttp().getRequest();
+    //get Token from header
+    const token = request.header("Authorization")?.split(" ")?.[1];
+
     const user = request.user as UserDTO;
     if (!user) {
       return false;
     }
-    let authorities: string[] = [];
-    for await (const item of request.user.tblUserRoles) {
-      const role = await this.rolesService.findOne(item.roleId);
-      let role_name = role;
-      authorities.push(role_name.key);
-    }
 
-    if (!user.status) {
+    const cacheKey = this.cacheService.generateCacheKey({
+      path: KEYCACHEPATH.LOGIN_KEY,
+      apiName: KEYCACHEAPINAME.LOGIN,
+      keyName: `id_${user.id}`,
+    });
+    const tokenExpiration = await this.cacheService.getCachedData(cacheKey);
+
+    if (!tokenExpiration || tokenExpiration !== token) {
       throw new UnauthorizedException({
         status: HttpStatus.UNAUTHORIZED,
       });
     }
-    if (!authorities) {
-      return false;
+
+    if (user.status !== ACCOUNT.ACTIVE) {
+      throw new UnauthorizedException({
+        status: HttpStatus.UNAUTHORIZED,
+      });
     }
-    const is_valid = authorities.some((role) => roles.indexOf(role) >= 0);
-    return is_valid;
+
+    //get id in table matrix equal endpoint, method
+    const matrixIds = await this.matrixService.findAllByEndpointAndMethod(
+      roles.endpoint,
+      roles.method
+    );
+
+    if (!matrixIds) {
+      throw new UnauthorizedException({
+        status: HttpStatus.UNAUTHORIZED,
+      });
+    }
+
+    // if exist any result satisfied conditions => push authorities => true
+    for await (const item of request.user.tblUserRoles) {
+      for await (const id of matrixIds) {
+        let result =
+          await this.rolesMatrixService.findRolesMatrixByMatrixIdAndRoleId(
+            id.id,
+            item.roleId
+          );
+        if (result) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

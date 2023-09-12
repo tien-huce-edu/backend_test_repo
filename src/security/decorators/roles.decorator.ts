@@ -1,4 +1,4 @@
-import { SetMetadata } from '@nestjs/common';
-import { RoleType } from '../role-type';
+import { SetMetadata } from "@nestjs/common";
 
-export const Roles = (...roles: RoleType[]): any => SetMetadata('roles', roles);
+export const Roles = (endpoint: string, method: string): any =>
+  SetMetadata("roles", { endpoint: endpoint, method: method });

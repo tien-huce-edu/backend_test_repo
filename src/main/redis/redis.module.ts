@@ -7,8 +7,7 @@ import { RedisCacheService } from "./redis.service";
     RedisModule.forRoot({
       config: {
         url: config.get("redis.url"),
-        db: config.get("redis.default-db"),
-        password: config.get("redis.password"),
+        db: config.get("redis.default-db"), // change db here from application.yml
       },
     }),
   ],
