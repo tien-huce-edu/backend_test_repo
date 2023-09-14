@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "123456" # change root password here
-      MYSQL_DATABASE: "rocket_base" # change default schema here
+      MYSQL_DATABASE: "rocket_testing" # change default schema here
     ports:
       - "3306:3306"
     volumes:
@@ -16,5 +16,5 @@ services:
       - localnet #change networks name here
 networks:
   localnet: #change networks name here
-    name: skybase_localnet #change networks name here
+    name: skytesting_localnet #change networks name here
     driver: bridge

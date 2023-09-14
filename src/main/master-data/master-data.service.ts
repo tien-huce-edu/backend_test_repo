@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Response } from "express";
+import { TblTest } from "src/entities/tbl_test.entity";
 import { Repository } from "typeorm";
 import { MESSAGE, SORT } from "../../common/constants/constants";
 import { removeItemUndefine } from "../../common/functions/functions";
@@ -13,6 +14,7 @@ import { LoggerService } from "../../common/logger/logger.service";
 import { PageRequest } from "../../entities/base/pagination.entity";
 import { TblMasterData } from "../../entities/tbl_master_data.entity";
 import { BaseHeaderDTO } from "../base/base.header";
+import { DataTestDTO } from "./dto/data-test.dto";
 import { MasterDataMapper } from "./dto/master-data.mapper.dto";
 import { UpsertMasterDataDTO } from "./dto/upsert-master-data.dto";
 
@@ -20,7 +22,9 @@ export class MasterDataService {
   logger = new LoggerService("MasterDataService");
   constructor(
     @InjectRepository(TblMasterData)
-    private masterDataRepository: Repository<TblMasterData>
+    private masterDataRepository: Repository<TblMasterData>,
+    @InjectRepository(TblTest)
+    private testRepository: Repository<TblTest>
   ) {}
 
   async createMasterData(body: UpsertMasterDataDTO, res: Response) {
@@ -221,6 +225,29 @@ export class MasterDataService {
       } else {
         return false;
       }
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException({
+        status: error?.response?.status || HttpStatus.INTERNAL_SERVER_ERROR,
+        message: error?.response?.message || MESSAGE.SERVER_ERROR,
+      });
+    }
+  }
+
+  async createTest(body: DataTestDTO, res: Response) {
+    try {
+      //remove undefined
+      removeItemUndefine(body);
+
+      let saveTest = new TblTest();
+      saveTest.location = body.location;
+
+      await this.testRepository.save(saveTest);
+
+      return res.json({
+        status: HttpStatus.CREATED,
+        message: MESSAGE.INSERT_MASTER_DATA_SUCCESS,
+      });
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException({

@@ -21,6 +21,7 @@ import { Response } from "express";
 import { METHOD } from "../../common/constants/constants";
 import { AuthGuard, Roles, RolesGuard } from "../../security";
 import { BaseHeaderDTO } from "../base/base.header";
+import { DataTestDTO } from "./dto/data-test.dto";
 import { FindAllMasterDataDTO } from "./dto/master-data.dto";
 import { UpsertMasterDataDTO } from "./dto/upsert-master-data.dto";
 import { MasterDataService } from "./master-data.service";
@@ -83,5 +84,17 @@ export class MasterDataController {
   })
   async deleteMasterData(@Param("id") id: string, @Res() res: Response) {
     return await this.masterDataService.deleteMasterData(+id, res);
+  }
+
+  @Post("/testing")
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles("api/master-data", METHOD.POST)
+  @ApiOperation({ summary: "create" })
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  async createLocaltion(@Body() body: DataTestDTO, @Res() res: Response) {
+    return await this.masterDataService.createTest(body, res);
   }
 }

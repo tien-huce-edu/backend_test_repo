@@ -15,7 +15,7 @@ typeorm:
   migrationsRun: false
   name: "default"
   type: "mysql"
-  database: "rocket_base" # change default schema here
+  database: "rocket_testing" # change default schema here
   keepConnectionAlive: true
   logging: true
 security:

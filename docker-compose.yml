@@ -1,8 +1,8 @@
 version: "3"
 services:
-  base-backend: #change services name here
-    container_name: base-backend #change container name here
-    image: base-backend #change image name here
+  sky-testing: #change services name here
+    container_name: sky-testing #change container name here
+    image: sky-testing #change image name here
     build: .
     ports:
       - "8080:3000"
@@ -13,7 +13,7 @@ services:
     environment:
       HOST: 0.0.0.0
     networks:
-      - skybase_localnet #change networks name here
+      - skytesting_localnet #change networks name here
 networks:
-  skybase_localnet: #change networks name here
+  skytesting_localnet: #change networks name here
     external: true

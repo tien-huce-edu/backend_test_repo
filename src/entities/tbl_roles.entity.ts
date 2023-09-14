@@ -3,7 +3,7 @@ import { BaseEntity } from "./base/base.entity";
 import { TblUserRoles } from "./tbl_user_roles.entity";
 
 @Index("code_UNIQUE", ["code"], { unique: true })
-@Entity("tbl_roles", { schema: "rocket_base" })
+@Entity("tbl_roles", { schema: "rocket_testing" })
 export class TblRoles extends BaseEntity {
   @Column("varchar", { name: "code", unique: true, length: 45 })
   code: string;

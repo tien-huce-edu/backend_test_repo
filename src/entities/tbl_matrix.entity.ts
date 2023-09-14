@@ -1,7 +1,7 @@
 import { Column, Entity } from "typeorm";
 import { BaseEntity } from "./base/base.entity";
 
-@Entity("tbl_matrix", { schema: "rocket_base" })
+@Entity("tbl_matrix", { schema: "rocket_testing" })
 export class TblMatrix extends BaseEntity {
   @Column("varchar", { name: "endpoint", length: 256 })
   endpoint: string;

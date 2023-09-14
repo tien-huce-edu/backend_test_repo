@@ -2,7 +2,7 @@ import { Column, Entity, Index } from "typeorm";
 import { BaseEntity } from "./base/base.entity";
 
 @Index("unq_code_type", ["code", "type"], { unique: true })
-@Entity("tbl_master_data", { schema: "rocket_base" })
+@Entity("tbl_master_data", { schema: "rocket_testing" })
 export class TblMasterData extends BaseEntity {
   @Column("varchar", { name: "name", length: 256 })
   name: string;

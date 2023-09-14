@@ -16,8 +16,8 @@ services:
       start_period: 40s
     restart: on-failure:3
     networks:
-      - skybase_localnet #change networks name here
+      - skytesting_localnet #change networks name here
 
 networks:
-  skybase_localnet:
+  skytesting_localnet:
     external: true
