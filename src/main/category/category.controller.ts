@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   Patch,
   Post,
@@ -11,6 +12,8 @@ import {
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto } from "./dto/ceate-category.dto";
 import { ApiTags } from "@nestjs/swagger";
+import { BaseHeaderDTO } from "../base/base.header";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
 
 @Controller("api/category")
 @ApiTags("Category")
@@ -18,8 +21,8 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
-  async findAll(): Promise<any> {
-    return await this.categoryService.findAll();
+  async findAll(@Headers() headers: BaseHeaderDTO): Promise<any> {
+    return await this.categoryService.findAll(headers);
   }
 
   @Get(":id")
@@ -27,7 +30,7 @@ export class CategoryController {
 
     return await this.categoryService.findOne(+id, Boolean(showProd));
   }
-  
+
   @Post()
   async createCategory(@Body() category: CreateCategoryDto): Promise<any> {
     return await this.categoryService.createCategory(category);
@@ -35,7 +38,7 @@ export class CategoryController {
 
   @Patch(":id")
   async updateCategory(
-    @Body() category: any,
+    @Body() category: UpdateCategoryDto,
     @Param("id") id: any
   ): Promise<any> {
     return await this.categoryService.updateCategory(+id, category);

@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TblCategory } from "src/entities/tbl_category.entity";
-import type { Repository } from "typeorm";
+import { Repository } from "typeorm";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
+import { BaseHeaderDTO } from "../base/base.header";
 
 @Injectable()
 export class CategoryService {
@@ -10,12 +12,21 @@ export class CategoryService {
     private readonly categoryRepository: Repository<TblCategory>
   ) {}
 
-  async findAll(): Promise<any> {
+  async findAll(headers: BaseHeaderDTO): Promise<any> {
+    let { page, size } = headers;
     try {
-      const resData = await this.categoryRepository.find();
+      const skipCount = (+page - 1) * +size;
+      const data = await this.categoryRepository.find({
+        skip: skipCount || 0,
+        take: +size || 10,
+      });
+      const totalCount = await this.categoryRepository.count();
+      const pageCount = Math.ceil(totalCount / +size);
       return {
         message: "Categories fetched successfully",
-        data: resData,
+        data: data,
+        pageCount: pageCount,
+        totalCount: totalCount,
       };
     } catch (error) {
       return error.message;
@@ -24,7 +35,7 @@ export class CategoryService {
 
   async findOne(id: number, showProduct: boolean): Promise<any> {
     try {
-      let resData
+      let resData;
       if (showProduct) {
         resData = await this.categoryRepository.findOne({
           where: { id },
@@ -54,17 +65,22 @@ export class CategoryService {
     }
   }
 
-  async updateCategory(id: number, category: any): Promise<any> {
+  async updateCategory(id: number, category: UpdateCategoryDto): Promise<any> {
     try {
-      const oldData = await this.categoryRepository.findOne({ where: { id } });
-      await this.categoryRepository.update(id, category);
-      const newData = await this.categoryRepository.findOne({ where: { id } });
+      const { name } = category;
+      let updateData = {};
+
+      !name && {
+        status: "error",
+        message: "Nothing to update",
+      };
+
+      name && (updateData = { name });
+
+      await this.categoryRepository.update(id, updateData);
       return {
+        status: "success",
         message: "Category updated successfully",
-        data: {
-          oldData,
-          newData,
-        },
       };
     } catch (error) {
       return error.message;
@@ -74,10 +90,9 @@ export class CategoryService {
   async deleteCategory(id: number): Promise<any> {
     try {
       await this.categoryRepository.delete(id);
-      const resData = await this.categoryRepository.find();
       return {
+        status: "success",
         message: "Category deleted successfully",
-        data: resData,
       };
     } catch (error) {
       return error.message;
