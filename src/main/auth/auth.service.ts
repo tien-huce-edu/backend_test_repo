@@ -45,14 +45,15 @@ export class AuthService {
   async login(userLogin: UserLoginDTO): Promise<any> {
     try {
       const loginUserName = userLogin.username;
-      const loginPassword = Buffer.from(userLogin.password, "base64").toString(
-        "ascii"
-      );
+      // const loginPassword = Buffer.from(userLogin.password, "base64").toString(
+      //   "ascii"
+      // );
+
       const userFind = await this.userService.findByUsername(loginUserName);
       console.log(userFind);
       let validPassword = false;
       if (userFind) {
-        if (await bcrypt.compare(loginPassword, userFind.password)) {
+        if (await bcrypt.compare(userLogin.password, userFind.password)) {
           validPassword = true;
         }
       }

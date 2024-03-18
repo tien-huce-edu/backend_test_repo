@@ -9,6 +9,8 @@ import { MatrixModule } from "./main/matrix/matrix.module";
 import { RolesModule } from "./main/roles/roles.module";
 import { UserModule } from "./main/user/user.module";
 import { ormConfig } from "./typeorm/orm.config";
+import { ProductModule } from "./main/product/product.module";
+import { CategoryModule } from "./main/category/category.module";
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { ormConfig } from "./typeorm/orm.config";
     MatrixModule,
     MasterDataModule,
     AuthModule,
+    ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
